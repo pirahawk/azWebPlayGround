@@ -1,0 +1,25 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<form asp-page="index" method="post">
+    <div class="form-group">
+        <label asp-for="MyUser.UserName"></label>
+        <input asp-for="MyUser.UserName" />
+        @**@
+
+        @*@if (ModelState.ContainsKey("MyUser.UserName"))
+            {
+            }*@
+        <span class="form-text text-muted" asp-validation-for="MyUser.UserName"></span>
+
+
+        @*@Html.ValidationMessage("MyUser.UserName")*@
+
+    </div>
+
+    <div asp-validation-summary="All"></div>
+    <input type="submit" class="btn-primary" />
+</form>
