@@ -4,7 +4,7 @@ import {APP_BASE_HREF, CommonModule} from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent, SomeThing } from './app.component';
+import { AppComponent } from './app.component';
 import { MycomponentsModule } from './mycomponents/mycomponents.module';
 import { MyservicesModule } from './myservices/myservices.module';
 
