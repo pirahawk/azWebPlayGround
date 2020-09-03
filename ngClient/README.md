@@ -5,7 +5,13 @@ I created this project with the following ng command
 ng n ngBuildTest -g=false --directory=./ --inlineStyle=false --inlineTemplate=false --routing=true --style=scss --skipTests=true --minimal=true -d
 ```
 
+```
+ng g module mycomponents --routing=false
 
+ng g component ./mycomponents/login -m mycomponents --flat=true -d
+
+
+```
 
 
 
