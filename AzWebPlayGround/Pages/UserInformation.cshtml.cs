@@ -1,6 +1,4 @@
-using AzWebPlayGround.Middleware;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using AzWebPlayGround.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AzWebPlayGround.Pages
@@ -9,6 +7,9 @@ namespace AzWebPlayGround.Pages
     //[AllowAnonymous]
     public class UserInformationModel : PageModel
     {
+        public MyUserPrincipal MyUser => HttpContext.User as MyUserPrincipal;
+
+
         public void OnGet()
         {
             var context = this.HttpContext.User;

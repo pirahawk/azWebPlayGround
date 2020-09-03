@@ -4,22 +4,13 @@
     ViewData["Title"] = "Home page";
 }
 
-<form asp-page="index" method="post">
-    <div class="form-group">
-        <label asp-for="MyUser.UserName"></label>
-        <input asp-for="MyUser.UserName" />
-        @**@
 
-        @*@if (ModelState.ContainsKey("MyUser.UserName"))
-            {
-            }*@
-        <span class="form-text text-muted" asp-validation-for="MyUser.UserName"></span>
+<app-root></app-root>
 
+@section Scripts
+{
 
-        @*@Html.ValidationMessage("MyUser.UserName")*@
-
-    </div>
-
-    <div asp-validation-summary="All"></div>
-    <input type="submit" class="btn-primary" />
-</form>
+    <script src="~/client/polyfills.js" asp-append-version="true"></script>
+    <script src="~/client/app.js" asp-append-version="true"></script>
+    <script src="~/client/style.js" asp-append-version="true"></script>
+}

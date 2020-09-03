@@ -1,20 +1,12 @@
 ﻿@page
 @model AzWebPlayGround.Pages.UserInformationModel
 @{
+    var identity = Model.MyUser?.Identity;
 }
-
 
 <div class="text-center">
-    <h1 class="display-4">Information</h1>
+    <h1 class="display-4">@($"Hello - {identity.Name}")</h1>
 </div>
 
-<app-root></app-root>
 
-@section Scripts
-{
-
-    <script src="~/client/polyfills.js" asp-append-version="true"></script>
-    <script src="~/client/app.js" asp-append-version="true"></script>
-    <script src="~/client/style.js" asp-append-version="true"></script>
-}
 
