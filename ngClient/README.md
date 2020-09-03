@@ -5,8 +5,16 @@ I created this project with the following ng command
 ng n ngBuildTest -g=false --directory=./ --inlineStyle=false --inlineTemplate=false --routing=true --style=scss --skipTests=true --minimal=true -d
 ```
 
+NOTE: In the tsconfig.json you absolutely need to remember to add this option
+
+```
+"emitDecoratorMetadata": true,
+```
+
 ```
 ng g module mycomponents --routing=false
+ng g module myservices --routing=false
+ng g class ./myservices/myHttpService
 
 ng g component ./mycomponents/login -m mycomponents --flat=true -d
 
