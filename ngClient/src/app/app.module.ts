@@ -9,9 +9,6 @@ import { MycomponentsModule } from './mycomponents/mycomponents.module';
 import { MyservicesModule } from './myservices/myservices.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
     CommonModule,
@@ -22,6 +19,9 @@ import { MyservicesModule } from './myservices/myservices.module';
   ],
   providers: [
     {provide: APP_BASE_HREF, useValue : '/' }
+  ],
+  declarations: [
+    AppComponent
   ],
   bootstrap: [AppComponent]
 })
