@@ -1,6 +1,7 @@
-import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy, Injectable } from '@angular/core';
 import { FormControl, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { MyHttpService } from '../myservices/my-http-service';
 
 @Component({
   selector: "app-login",
@@ -19,51 +20,42 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
     return JSON.stringify(this.nameForm.errors);
   }
 
-  public get firstNameErrors():string{
-    let firstName:AbstractControl = this.nameForm.controls.firstName;
-    if(!firstName.touched || firstName.valid){
+  public get userNameErrors():string{
+    let userName:AbstractControl = this.nameForm.controls.userName;
+    if(!userName.touched || userName.valid){
       return;
     }
 
-    return JSON.stringify(firstName.errors);
+    return JSON.stringify(userName.errors);
   }
 
-  public get lastNameErrors():string{
-    let lastName:AbstractControl = this.nameForm.controls.lastName;
-    if(!lastName.touched || lastName.valid){
-      return;
-    }
+  private nameFormControlSub: Subscription;
 
-    return JSON.stringify(lastName.errors);
-  }
-
-  nameFormControlSub: Subscription;
-
-  constructor() {
+  constructor(public someThing:MyHttpService) {
     this.nameForm = new FormGroup({
-      firstName: new FormControl('',Validators.required),
-      lastName: new FormControl('',Validators.required)
+      userName: new FormControl('',Validators.required)
     });
   }
-  ngOnDestroy(): void {
-    this.nameFormControlSub?.unsubscribe();
+
+  ngOnInit(): void {
+    this.isItTrue = true;
+    this.someThing.doSomething();
+    this.nameFormControlSub = this.nameForm.valueChanges.subscribe(
+      (val:any)=>{
+        console.log(`${val} Name changed: ${this.nameFormVal}`);
+      },
+      (err:any)=>{}
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(`changes detected: ${changes}`);
   }
 
-  ngOnInit(): void {
-    this.isItTrue = true;
-    //this.nameFormControl.
-    this.nameFormControlSub = this.nameForm.valueChanges.subscribe(
-      (val:any)=>{
-        console.log(`${val} Name changed: ${this.nameForm.value}`);
-      },
-      (err:any)=>{}
-    );
+  ngOnDestroy(): void {
+    this.nameFormControlSub?.unsubscribe();
   }
 
-  onSubmit():void{
+  onSubmit():void {
   }
 }

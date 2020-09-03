@@ -1,62 +1,14 @@
 
-<!-- 
-
-<input #nameBox type="text" 
-[formControl]="nameFormControl" 
-(keyup)="0" 
-[class.what]="isItTrue">
-
-<p>{{nameBox.value}}</p>
-
-
-
-<ng-container *ngIf="nameFormControl.touched">
-    <span>touched val</span>
-    <p>{{nameFormControl.value}}</p>
-</ng-container>
-
-<ng-container *ngIf="nameFormControl.dirty">
-    <span>Dirty val</span>
-    <p>{{nameFormControl.value}}</p>
-</ng-container> -->
-
 <form [formGroup]="nameForm" (ngSubmit)="onSubmit()">
     <p>
         <label>
-            First Name:
+            User Name:
           </label>
-          <input type="text" formControlName="firstName">
-    </p>
-    <p>
-        <label>
-            Last Name:
-          </label>
-          <input type="text" formControlName="lastName">
+          <input type="text" formControlName="userName">
     </p>
 
     <button type="submit" [disabled]="nameForm.invalid">Submit</button>
 </form>
 
-<ng-container *ngIf="nameForm.touched">
-    <span>- touched</span>
-</ng-container>
 
-<ng-container *ngIf="nameForm.dirty">
-    <span>- dirty</span>
-</ng-container>
-
-<ng-container *ngIf="nameForm.valid">
-    <span>- valid</span>
-</ng-container>
-
-<ng-container *ngIf="nameForm.invalid">
-    <span>- invalid</span>
-</ng-container>
-
-<p>Values</p>
-<p>{{nameFormVal}}</p>
-
-<p>Errors</p>
-<p>{{firstNameErrors}}</p>
-<p>{{lastNameErrors}}</p>
 
