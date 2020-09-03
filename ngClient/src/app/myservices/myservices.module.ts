@@ -6,11 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [],
-  imports: [
-    BrowserModule,
-    CommonModule,
-    HttpClientModule,
-  ],
+  imports: [],
   providers:[
     MyHttpService
   ]

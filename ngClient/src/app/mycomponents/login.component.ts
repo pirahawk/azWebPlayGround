@@ -2,6 +2,8 @@ import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy, Injectable } fr
 import { FormControl, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { MyHttpService } from '../myservices/my-http-service';
+import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { Myuser } from '../domain/myuser';
 
 @Component({
   selector: "app-login",
@@ -29,9 +31,14 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
     return JSON.stringify(userName.errors);
   }
 
+  public get userName():string{
+    let userName:AbstractControl = this.nameForm.controls.userName;
+    return userName.value;
+  }
+
   private nameFormControlSub: Subscription;
 
-  constructor(public someThing:MyHttpService) {
+  constructor(public myHttpService:MyHttpService) {
     this.nameForm = new FormGroup({
       userName: new FormControl('',Validators.required)
     });
@@ -39,7 +46,6 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     this.isItTrue = true;
-    this.someThing.doSomething();
     this.nameFormControlSub = this.nameForm.valueChanges.subscribe(
       (val:any)=>{
         console.log(`${val} Name changed: ${this.nameFormVal}`);
@@ -57,5 +63,15 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onSubmit():void {
+    this.myHttpService.login({
+      userName: this.userName
+    }).subscribe(
+      (response:HttpResponse<null>)=>{
+        console.log("success");
+      },
+      (error:HttpErrorResponse)=>{
+        console.log("fail");
+      }
+    );
   }
 }
