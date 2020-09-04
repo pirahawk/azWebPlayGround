@@ -8,7 +8,7 @@ export class MyHttpService {
     constructor(public httpClient:HttpClient) {
     }
 
-    public login(user:Myuser):Observable<HttpResponse<null>>{
+    public login(user:Myuser):Observable<HttpResponse<Myuser>>{
         return this.httpClient.post<null>("/api/login",user, { observe: 'response' } );
     }
 }
