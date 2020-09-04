@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AzWebPlayGround.Hubs;
 using AzWebPlayGround.Middleware;
 using AzWebPlayGround.Services;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +29,11 @@ namespace AzWebPlayGround
             services.AddRazorPages(rpOptions =>
             {
             });
+            services.AddSignalR().AddAzureSignalR(serviceOptions =>
+            {
+                
+            });
+
             services.AddTransient<MyJwtAuthFilterAttribute>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAntiForgeryService, AntiForgeryService>();
@@ -56,11 +58,11 @@ namespace AzWebPlayGround
             //app.UseAuthorization();
             app.UseMiddleware<IdentityProviderMiddleWare>();
             
-            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHub<MyMessagingHub>("hub/mymessage");
             });
         }
     }

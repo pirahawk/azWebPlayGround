@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace AzWebPlayGround
 {
@@ -18,6 +16,18 @@ namespace AzWebPlayGround
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((builderContext, configBuilder) =>
+                {
+                    var currentDirectory = Environment.CurrentDirectory;
+                    var azSettingsPath = Directory.GetFiles(currentDirectory, "azSettings.json").FirstOrDefault();
+                    
+                    if (string.IsNullOrWhiteSpace(azSettingsPath))
+                    {
+                        return;
+                    }
+
+                    configBuilder.AddJsonFile(azSettingsPath);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

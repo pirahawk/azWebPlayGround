@@ -28,10 +28,12 @@ namespace AzWebPlayGround.Controllers
                 return BadRequest();
             }
 
-            await _userService.Login(user.UserName);
+            var userModel = await _userService.Login(user.UserName);
             await _antiForgeryService.ReIssueAntiForgeryTokens();
 
-            return Ok();
+            return Ok(userModel);
         }
     }
+
+    
 }
