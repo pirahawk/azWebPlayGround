@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MyHttpService } from './my-http-service';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { UserService } from './user-service';
+
+let userServiceSingleton = new UserService();
 
 @NgModule({
   declarations: [],
   imports: [],
   providers:[
-    MyHttpService
+    MyHttpService,
+    {provide: UserService, useValue: userServiceSingleton}
   ]
 })
 export class MyservicesModule { }

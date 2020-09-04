@@ -5,6 +5,7 @@ import { MyHttpService } from '../myservices/my-http-service';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Myuser } from '../domain/myuser';
 import { Router } from '@angular/router';
+import { UserService } from '../myservices/user-service';
 
 @Component({
   selector: "app-login",
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
 
   private nameFormControlSub: Subscription;
 
-  constructor(public myHttpService:MyHttpService, public router: Router) {
+  constructor(public myHttpService:MyHttpService, public router: Router, public userService:UserService) {
     this.nameForm = new FormGroup({
       userName: new FormControl('',Validators.required)
     });
@@ -65,6 +66,7 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
 
   onSubmit():void {
     let succesHandler = (response:HttpResponse<Myuser>)=>{
+      this.userService.setUser(response.body);
       this.router.navigate(["userDisplay"]);
       console.log("success");
     };
