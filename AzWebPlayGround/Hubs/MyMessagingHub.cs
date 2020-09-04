@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Threading.Tasks;
+using AzWebPlayGround.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace AzWebPlayGround.Hubs
 {
@@ -11,6 +13,13 @@ namespace AzWebPlayGround.Hubs
 
     public class MyMessagingHub : Hub<IMyClient>
     {
+        private readonly IUserService _userService;
+
+        public MyMessagingHub(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         public async Task EchoTextMessage(string message, string connectionId)
         {
             await Clients.All.SendTextMessage(message, connectionId);
@@ -20,7 +29,12 @@ namespace AzWebPlayGround.Hubs
         {
             await base.OnConnectedAsync();
 
-            await EchoTextMessage("Client Joined", this.Context.ConnectionId);
+            var currentUser = Context.User; // as MyUserPrincipal;
+            if (currentUser!=null)
+            {
+                var user = currentUser?.Identity?.Name;
+                await EchoTextMessage($"User: {user} Joined", this.Context.ConnectionId);
+            }
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MyHttpService } from './my-http-service';
 import { UserService } from './user-service';
+import { SignalrFactory } from './signalr-factory';
 
 let userServiceSingleton = new UserService();
 
@@ -9,6 +10,7 @@ let userServiceSingleton = new UserService();
   imports: [],
   providers:[
     MyHttpService,
+    SignalrFactory,
     {provide: UserService, useValue: userServiceSingleton}
   ]
 })
