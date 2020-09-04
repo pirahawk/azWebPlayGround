@@ -1,1 +1,18 @@
 <p>Hello {{userName}}!</p>
+<p>Client Status - {{connectionStatus}}</p>
+
+<ng-container *ngIf="isConnected">
+    <form [formGroup]="messageFormGroup" (ngSubmit)="onSubmit()">
+        <p>
+            <label>
+                message:
+            </label>
+            <input type="text" formControlName="chatMessage">
+        </p>
+
+        <button type="submit" [disabled]="messageFormGroup.invalid">Submit</button>
+    </form>
+</ng-container>
+
+<div id="msgDisplay">
+</div>

@@ -75,15 +75,6 @@ export class LoginComponent implements OnInit, OnChanges, OnDestroy {
       console.log("login fail");
     };
 
-    // let succesHandler = function(response:HttpResponse<Myuser>){
-    //   this.router.navigate("userDisplay");
-    //   console.log("success");
-    // }.bind(this);
-
-    // let failHandler = function(error:HttpErrorResponse){
-    //   console.log("login fail");
-    // }.bind(this);
-
     this.myHttpService.login({
       userName: this.userName
     }).subscribe(
