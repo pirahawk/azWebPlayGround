@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from '../myservices/user-service';
 import { SignalrFactory} from '../myservices/signalr-factory';
-import { MySignalrConnection, IMySignalrConnectionHandler, MySignalrConnectionStatus } from '../myservices/my-signalr-connection';
+import { MySignalrConnection, IMySignalrConnectionHandler, MySignalrConnectionStatus, MyUserMessageModel } from '../myservices/my-signalr-connection';
 import { Subscription } from 'rxjs';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 
@@ -16,6 +16,7 @@ export class UserdisplayComponent implements OnInit, OnDestroy, IMySignalrConnec
   public connectionStatus: string;
   public onConnectedSubscriber: Subscription;
   public onSendTextMessageSubject: Subscription;
+  public onSendChatMessageSubject: Subscription;
   public messageFormGroup: FormGroup;
 
   public get userName(): string {
@@ -40,7 +41,13 @@ export class UserdisplayComponent implements OnInit, OnDestroy, IMySignalrConnec
       },
     );
     this.onSendTextMessageSubject = this.myConnection.onSendTextMessageSubject.subscribe(
-      (message: string) => { this.recieveMessage(message) },
+      (message: string) => { this.recieveMessage(message); },
+      () => { }
+    );
+    this.onSendChatMessageSubject = this.myConnection.onSendChatMessageSubject.subscribe(
+      (message: MyUserMessageModel) => { 
+        this.recieveMessage(`${message.user}: ${message.message}`);
+      },
       () => { }
     );
     this.myConnection.startConnection(this);

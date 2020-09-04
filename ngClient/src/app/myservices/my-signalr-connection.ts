@@ -4,10 +4,12 @@ export class MySignalrConnection{
     public connectionStatus:MySignalrConnectionStatus;
     public onConnectedSubject:Subject<MySignalrConnectionStatus>;
     public onSendTextMessageSubject:Subject<string>;
+    public onSendChatMessageSubject:Subject<MyUserMessageModel>;
 
     constructor(public connection:signalR.HubConnection) {
         this.onConnectedSubject = new Subject<MySignalrConnectionStatus>();
         this.onSendTextMessageSubject = new Subject<string>();
+        this.onSendChatMessageSubject = new Subject<MyUserMessageModel>();
     }
 
     public startConnection(handler:IMySignalrConnectionHandler):void{
@@ -35,11 +37,17 @@ export class MySignalrConnection{
             this.onSendTextMessageSubject.next(message);
         });
 
+        this.connection.on("SendChatMessage", (userMessage: MyUserMessageModel) => {
+            //console.log(`Recieved Message from ${connectionId}: ${message}`);
+            this.onSendChatMessageSubject.next(userMessage);
+        });
+
         this.attemptConnectionStart();
     }
 
     public sendChatMessage(message:string):Promise<any>{
-        return this.connection.invoke('EchoTextMessage', message, this.connection.connectionId);
+        //return this.connection.invoke('EchoTextMessage', message, this.connection.connectionId);
+        return this.connection.invoke('EchoChatMessage', message);
     }
 
     private attemptConnectionStart():void{
@@ -65,5 +73,11 @@ export enum MySignalrConnectionStatus {
 }
 
 export interface IMySignalrConnectionHandler{
+}
 
+export class MyUserMessageModel
+{
+    public user:string;
+    public connectionId:string;
+    public message:string;
 }

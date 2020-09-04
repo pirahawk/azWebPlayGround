@@ -1,14 +1,14 @@
+using AzWebPlayGround.Services;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Threading.Tasks;
-using AzWebPlayGround.Services;
-using Microsoft.AspNetCore.Http;
 
 namespace AzWebPlayGround.Hubs
 {
     public interface IMyClient
     {
         Task SendTextMessage(string message, string connectionId);
+        Task SendChatMessage(MyUserMessageModel message);
     }
 
     public class MyMessagingHub : Hub<IMyClient>
@@ -23,6 +23,19 @@ namespace AzWebPlayGround.Hubs
         public async Task EchoTextMessage(string message, string connectionId)
         {
             await Clients.All.SendTextMessage(message, connectionId);
+        }
+
+        public async Task EchoChatMessage(string message)
+        {
+            var currentUser = Context.User;
+            var user = currentUser?.Identity?.Name;
+            var myUserMessageModel = new MyUserMessageModel
+            {
+                User = user,
+                ConnectionId = Context.ConnectionId,
+                Message = message
+            };
+            await Clients.All.SendChatMessage(myUserMessageModel);
         }
 
         public override async Task OnConnectedAsync()
@@ -41,5 +54,12 @@ namespace AzWebPlayGround.Hubs
         {
             await base.OnDisconnectedAsync(exception);
         }
+    }
+
+    public class MyUserMessageModel
+    {
+        public string? User { get; set; }
+        public string ConnectionId { get; set; }
+        public string Message { get; set; }
     }
 }
